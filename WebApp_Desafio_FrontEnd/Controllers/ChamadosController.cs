@@ -9,6 +9,7 @@ using WebApp_Desafio_FrontEnd.ViewModels;
 using WebApp_Desafio_FrontEnd.ViewModels.Enums;
 using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WebApp_Desafio_FrontEnd.Controllers
 {
@@ -63,6 +64,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             {
                 DataAbertura = DateTime.Now
             };
+
             ViewData["Title"] = "Cadastrar Novo Chamado";
 
             try
@@ -82,8 +84,25 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         [HttpPost]
         public IActionResult Cadastrar(ChamadoViewModel chamadoVM)
         {
+
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values
+                            .Where(x => x.ValidationState == ModelValidationState.Invalid)
+                            .Select(x => x.Errors);
+
+                    var mensagemErros = "";
+
+                    foreach(var error in errors) 
+                    { 
+                        mensagemErros += error.FirstOrDefault().ErrorMessage + " ";
+                    }
+
+                    throw new Exception($"Falha ao cadastrar o Chamado. " + mensagemErros);
+                }
+                
                 var chamadosApiClient = new ChamadosApiClient();
                 var realizadoComSucesso = chamadosApiClient.ChamadoGravar(chamadoVM);
 
@@ -98,7 +117,12 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseViewModel(ex));
+                ViewData["Error"] = "teste";
+                var t = new ResponseViewModel(
+                            ex.Message,
+                            AlertTypes.error
+                        );
+                return BadRequest(t);
             }
         }
 
@@ -144,6 +168,17 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             {
                 return BadRequest(new ResponseViewModel(ex));
             }
+        }
+
+        [HttpGet]
+        public IActionResult ObterListaAutocompleteSolicitantes()
+        {
+            var chamadosApiClient = new ChamadosApiClient();
+            var lstChamados = chamadosApiClient.ChamadosListar();
+
+            List<string> listaAutocomplete = lstChamados.Select(x => x.Solicitante).ToList();
+            var t = Json(listaAutocomplete);
+            return Json(listaAutocomplete);
         }
 
         [HttpGet]

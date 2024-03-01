@@ -41,6 +41,10 @@ namespace WebApp_Desafio_FrontEnd
                 .AddHttpContextAccessor()
                 .AddLocalization()
                 .AddMvc()
+                .AddViewOptions(options =>
+                {
+                    options.HtmlHelperOptions.ClientValidationEnabled = true;
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore)
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())

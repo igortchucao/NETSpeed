@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebApp_Desafio_BackEnd.Models;
 
 namespace WebApp_Desafio_BackEnd.DataAccess
@@ -16,8 +12,6 @@ namespace WebApp_Desafio_BackEnd.DataAccess
         public IEnumerable<Chamado> ListarChamados()
         {
             IList<Chamado> lstChamados = new List<Chamado>();
-
-            DataTable dtChamados = new DataTable();
 
             using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
             {
@@ -74,8 +68,6 @@ namespace WebApp_Desafio_BackEnd.DataAccess
         {
             var chamado = Chamado.Empty;
 
-            DataTable dtChamados = new DataTable();
-
             using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
             {
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
@@ -90,8 +82,9 @@ namespace WebApp_Desafio_BackEnd.DataAccess
                         "FROM chamados " +
                         "INNER JOIN departamentos " +
                         "   ON chamados.IdDepartamento = departamentos.ID " +
-                        $"WHERE chamados.ID = {idChamado}";
+                        $"WHERE chamados.ID = @IdChamado";
 
+                    dbCommand.Parameters.AddWithValue("@IdChamado", idChamado);
                     dbConnection.Open();
 
                     using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
@@ -126,26 +119,26 @@ namespace WebApp_Desafio_BackEnd.DataAccess
 
         public bool GravarChamado(int ID, string Assunto, string Solicitante, int IdDepartamento, DateTime DataAbertura)
         {
-            int regsAfetados = -1;
+            int regsAfetados = 0;
 
             using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
-            {
+            { 
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
                 {
+
                     if (ID == 0)
                     {
-                        dbCommand.CommandText = 
+                        dbCommand.CommandText =
                             "INSERT INTO chamados (Assunto,Solicitante,IdDepartamento,DataAbertura)" +
                             "VALUES (@Assunto,@Solicitante,@IdDepartamento,@DataAbertura)";
                     }
                     else
                     {
-                        dbCommand.CommandText = 
-                            "UPDATE chamados " + 
-                            "SET Assunto=@Assunto, " + 
+                        dbCommand.CommandText =
+                            "UPDATE chamados " +
+                            "SET Assunto=@Assunto, " +
                             "    Solicitante=@Solicitante, " +
-                            "    IdDepartamento=@IdDepartamento, " + 
-                            "    DataAbertura=@DataAbertura " + 
+                            "    IdDepartamento=@IdDepartamento " +
                             "WHERE ID=@ID ";
                     }
 
@@ -159,7 +152,6 @@ namespace WebApp_Desafio_BackEnd.DataAccess
                     regsAfetados = dbCommand.ExecuteNonQuery();
                     dbConnection.Close();
                 }
-
             }
 
             return (regsAfetados > 0);
@@ -168,18 +160,19 @@ namespace WebApp_Desafio_BackEnd.DataAccess
 
         public bool ExcluirChamado(int idChamado)
         {
-            int regsAfetados = -1;
+            int regsAfetados = 0;
 
             using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
             {
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
                 {
-                    dbCommand.CommandText = $"DELETE FROM chamados WHERE ID = {idChamado}";
+                    dbCommand.CommandText = $"DELETE FROM chamados WHERE ID = @IdChamado";
+
+                    dbCommand.Parameters.AddWithValue("@IdChamado", idChamado);
 
                     dbConnection.Open();
                     regsAfetados = dbCommand.ExecuteNonQuery();
                     dbConnection.Close();
-
                 }
 
             }

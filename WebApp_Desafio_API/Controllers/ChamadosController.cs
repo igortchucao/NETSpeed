@@ -38,7 +38,7 @@ namespace WebApp_Desafio_API.Controllers
                           {
                               id = chamado.ID,
                               assunto = chamado.Assunto,
-                              solicitante = chamado.Solicitante,
+                              Solicitante = chamado.Solicitante,
                               idDepartamento = chamado.IdDepartamento,
                               departamento = chamado.Departamento,
                               dataAbertura = chamado.DataAbertura
@@ -81,7 +81,7 @@ namespace WebApp_Desafio_API.Controllers
                               {
                                   id = _chamado.ID,
                                   assunto = _chamado.Assunto,
-                                  solicitante = _chamado.Solicitante,
+                                  Solicitante = _chamado.Solicitante,
                                   idDepartamento = _chamado.IdDepartamento,
                                   departamento = _chamado.Departamento,
                                   dataAbertura = _chamado.DataAbertura
@@ -121,7 +121,7 @@ namespace WebApp_Desafio_API.Controllers
 
                 var resultado = this.bll.GravarChamado(request.id,
                                                        request.assunto,
-                                                       request.solicitante,
+                                                       request.Solicitante,
                                                        request.idDepartamento,
                                                        request.dataAbertura);
 
@@ -150,7 +150,7 @@ namespace WebApp_Desafio_API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [Route("Excluir")]
-        public IActionResult Excluir([FromRoute] int idChamado)
+        public IActionResult Excluir([FromQuery] int idChamado)
         {
             try
             {

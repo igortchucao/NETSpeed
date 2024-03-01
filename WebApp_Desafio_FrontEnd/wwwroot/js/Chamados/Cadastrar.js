@@ -24,6 +24,39 @@
         });
     });
 
+    //$.ajax({
+    //    type: 'GET',
+    //    url: config.contextPath + 'Chamados/ObterListaAutocompleteSolicitantes',
+    //    success: function (data) {
+    //        $("#SolicitanteComplete").select2({
+    //            data: data,
+    //            placeholder: 'Selecione um item',
+    //            allowClear: true
+    //        });
+    //    },
+    //    error: function (error) {
+    //        console.error('Erro ao obter a lista de autocompletar:', error);
+    //    }
+    //});
+
+    //var url = config.contextPath + 'Chamados/ObterListaAutocompleteSolicitantes';
+
+    //$('#fget').typeahead({
+    //    source: function (query, process) {
+    //        get(url, query, process);
+    //    },
+    //    minLength: 2, 
+    //    afterSelect: function (item) {
+    //        $("#idget").val(item);
+    //    }
+    //});
+
+    //function get(url, query, process) {
+    //    $.getJSON(url, query, function (response) {
+    //        process(response);
+    //    });
+    //}
+
     $('#btnSalvar').click(function () {
 
         if ($('#form').valid() != true) {
@@ -52,8 +85,8 @@
             },
             error: function (result) {
 
-                Swal.fire({
-                    text: result,
+                 Swal.fire({
+                    text: result.responseJSON['Message'],
                     confirmButtonText: 'OK',
                     icon: 'error'
                 });

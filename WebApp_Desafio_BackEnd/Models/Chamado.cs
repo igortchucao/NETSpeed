@@ -21,9 +21,11 @@ namespace WebApp_Desafio_BackEnd.Models
         [Required(ErrorMessage = "O Solicitante é obrigatório")]
         public string Solicitante { get; set; }
 
+        [Required(ErrorMessage = "O Departamento é obrigatório")]
         public int IdDepartamento { get; set; }
-        public string Departamento { get; set; }
 
+        [Required(ErrorMessage = "A data de abertura é obrigatório")]
         public DateTime DataAbertura { get; set; }
+        public string Departamento { get; set; } = string.Empty;
     }
 }

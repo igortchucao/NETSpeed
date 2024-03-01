@@ -90,10 +90,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Dados\DesafioDB.db" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\DesafioDB.db">
+    <Content Include=".\Dados\DesafioDB.db">
       <Link>Dados\DesafioDB.db</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

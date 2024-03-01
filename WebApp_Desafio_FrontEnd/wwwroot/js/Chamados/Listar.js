@@ -87,4 +87,10 @@
         }
     });
 
+    $('#dataTables-Chamados tbody').on('dblclick', 'tr', function () {
+        var chamadoId = $(this).find('td:first').text();
+
+        window.location.href = config.contextPath + 'Chamados/Editar/' + chamadoId;
+    });
+
 });

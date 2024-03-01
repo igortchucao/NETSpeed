@@ -12,6 +12,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         private const string chamadosObterUrl = "api/Chamados/Obter";
         private const string chamadosGravarUrl = "api/Chamados/Gravar";
         private const string chamadosExcluirUrl = "api/Chamados/Excluir";
+        private const string solicitanteObterUrl = "api/Solicitantes/Obter";
 
         private string desafioApiUrl = "https://localhost:44388/"; // Endereço API IIS-Express
 

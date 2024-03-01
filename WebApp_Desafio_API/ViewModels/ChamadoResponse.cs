@@ -20,7 +20,7 @@ namespace WebApp_Desafio_API.ViewModels
         /// <summary>
         /// Solicitante do Chamado
         /// </summary>
-        public string solicitante { get; set; }
+        public string Solicitante { get; set; }
 
         /// <summary>
         /// ID do Departamento do Chamado

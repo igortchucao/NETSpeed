@@ -15,6 +15,7 @@ namespace WebApp_Desafio_FrontEnd.ViewModels
 
         [Display(Name = "Descricao")]
         [DataMember(Name = "Descricao")]
+        [StringLength(128, MinimumLength = 1, ErrorMessage = "O campo Descrição deve ter entre 1 e 128 caracteres.")]
         public string Descricao { get; set; }
 
     }
